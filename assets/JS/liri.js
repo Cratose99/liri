@@ -44,3 +44,37 @@ axios.get("http://www.omdbapi.com/?t="  + movieName + "&y=&plot=short&apikey=tri
   });
 
 }
+
+function concertThis (artistsName){
+    var axios = require("axios");
+  
+  axios.get("https://rest.bandsintown.com/artists/" + artistsName + "/events?app_id=codingbootcamp").then(
+  function(response) {
+    var data = response.data
+    for(i=0; i < data.length; i++ ){
+    console.log("Venue name:" + data[i].venue.name);
+    console.log("venue location: " + data[i].venue.region);
+    var date = data[i].datetime;
+    var rightTime = moment(date).format('MM/DD/YYYY');
+    console.log("Venue Date: " + rightTime);
+    console.log("-------------------------------------------------")
+  
+  }
+  })
+  .catch(function(error) {
+    if (error.response) {
+      console.log("---------------Data---------------");
+      console.log(error.response.data);
+      console.log("---------------Status---------------");
+      console.log(error.response.status);
+      console.log("---------------Status---------------");
+      console.log(error.response.headers);
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    }
+    console.log(error.config);
+  });
+  
+  }
