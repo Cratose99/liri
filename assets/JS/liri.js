@@ -78,3 +78,70 @@ function concertThis (artistsName){
   });
   
   }
+
+  
+function spotify(songName){
+
+    if(!songName){
+      songName = "The sign"
+    }
+  
+      var spotify = new Spotify(keys.spotify);
+  
+         
+        spotify.search({ type: 'track', query: songName }, function(err, data) {
+          var response = data.tracks
+        
+         
+          if (err) {
+            return console.log('Error occurred: ' + err);
+          }
+         
+        console.log("Song Name: " + data.tracks.items[0].name); 
+        console.log("Artist's Name: " +data.tracks.items[0].artists[0].name); 
+        console.log("Spotify URL:" + data.tracks.items[0].external_urls.spotify); 
+        console.log("Album: " + data.tracks.items[0].album.name); 
+        console.log("---------------------------------------------------")
+        });
+  
+  
+  
+  }
+  
+  function nodeInput(userCommand){
+      if(userCommand ==="spotify-this-song"){
+          spotify(userInput);
+      }else if(userCommand==="movie-this"){
+          movieThis(userInput);
+      }else if(userCommand==="concert-this"){
+          concertThis(userInput);
+  
+      }else{
+          doWhatItSays()
+      }
+  
+  
+  }
+  
+  function doWhatItSays(){
+      var fs = require("fs");
+  
+  
+  fs.readFile("./random.txt", "utf8", function(error, data) {
+  
+    if (error) {
+      return console.log(error);
+    }
+  
+    console.log(data);
+  
+    var dataArr = data.split(",");
+    var songtitle = dataArr[1];
+  
+    console.log(dataArr[1]);
+  spotify(songtitle);
+  });
+  }
+  
+  nodeInput(userCommand);
+  
